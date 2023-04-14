@@ -9,7 +9,7 @@
 
 int main(void) {
 
-  char comando[20];
+  char comando[50];
   passageiro passageiros[100] = {NULL};
   viagem viagens[100] = {NULL};
   estacao estacoes[100] = {NULL};
