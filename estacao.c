@@ -17,7 +17,6 @@ estacao criaEstacao(int posicaoEstacao, estacao estacoes[]) {
     e->size = 0;
     e->brindes = rand() % 5;
     e->brindesVendidos = 0;
-//SIM
   if(posicaoEstacao == 0){
 
     printf("Estacao criada com sucesso\n");
