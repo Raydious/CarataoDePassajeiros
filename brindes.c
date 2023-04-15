@@ -117,12 +117,13 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                         if (estacoes[j]->codigo == e->codigo && estacoes[j]->brindes > 0)
                         {
 
-                            total = 300 * quantidade; //NAO ESTÁ A ADICIONAR PONTOD A BRINDES INSERIDOS
+                            total = 300 * quantidade;
                             printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
                             char simnao[1];
                             scanf(" %s", simnao);
                             while (simnao != "y" || simnao != "n")
                             {
+                                
 
                                 if (strcmp(simnao, "y") == 0)
                                 {
@@ -130,7 +131,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                     if (passageiros[i]->pontos >= total)
                                     {
 
-                                        estacoes[j]->brindes -= quantidade;
+                                        estacoes[j]->brindes -= quantidade; //NAO ESTÁ A ADICIONAR PONTOS A BRINDES INSERIDOS
                                         passageiros[i]->pontos -= total;
                                         estacoes[j]->brindesVendidos += quantidade;
                                         printf("Brinde comprado com sucesso, tens agora %d pontos\n", passageiros[i]->pontos);
