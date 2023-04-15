@@ -10,7 +10,7 @@ passageiro criaPassageiro(int posicaoPassageiro, passageiro passageiros[]) {
   p->email = malloc(100 * sizeof(char));
 
   printf("\nNome: ");
-  scanf(" %s", p->nome);
+  scanf(" %[^\n]", p->nome);
   printf("Email: ");
   scanf(" %s", p->email);
 

@@ -59,29 +59,35 @@ void incrementaBrindes(int posicaoEstacao, estacao estacoes[])
 
 void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[], passageiro passageiros[])
 {
-
-    char email[50];
-    int quantidade;
-    int total;
-    printf("Email do passageiros que vai comprar brindes: ");
-    scanf(" %s", email);
-    printf("Quantos brindes queres comprar: ");
-    if (scanf(" %d", &quantidade) != 1)
+    if (posicaoEstacao == 0)
     {
-        printf("A quantidade de brindes tem de ser um numero inteiro!\n");
+        printf("Não existem estações registadas!\n");
+    }
+    else if (posicaoPassageiro == 0)
+    {
+        printf("Não existem passajeiros registados!\n");
     }
     else
     {
-        if (posicaoPassageiro == 0)
+        char email[50];
+        int quantidade;
+        int total;
+        printf("Email do passageiros que vai comprar brindes: ");
+        scanf(" %s", email);
+        printf("Quantos brindes queres comprar: ");
+        if (scanf(" %d", &quantidade) != 1)
         {
-            printf("Este EMAIL não está assuciado a nenhum passageiro!\n");
-        }
-        else if (posicaoEstacao == 0)
-        {
-            printf("Não existem estações registadas!\n");
+            printf("A quantidade de brindes tem de ser um numero inteiro!\n");
         }
         else
         {
+
+            if (quantidade > 1000)
+            {
+                printf("ERRO!! - Não podes comprar tantos brindes em uma só compra!\n");
+                return NULL;
+            }
+
             for (int i = 0; i < posicaoPassageiro; i++)
             {
 
@@ -108,12 +114,10 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
 
                     for (int j = 0; j < posicaoEstacao; j++)
                     {
-                        
-
                         if (estacoes[j]->codigo == e->codigo && estacoes[j]->brindes > 0)
                         {
 
-                            total = 300 * quantidade;
+                            total = 300 * quantidade; //NAO ESTÁ A ADICIONAR PONTOD A BRINDES INSERIDOS
                             printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
                             char simnao[1];
                             scanf(" %s", simnao);
@@ -251,105 +255,113 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
     }
 }
 
-// void topBrindes(int posicaoEstacao, estacao e[])
-// {
-//     int num = 0;
+void topBrindes(int posicaoEstacao, estacao e[])
+{
+    int num = 0;
 
-//     for (int i = 0; i < posicaoEstacao; i++)
-//     {
-//         if (e[i]->brindesVendidos == 0)
-//         {
-//             num++;
-//         }
-//     }
+    for (int i = 0; i < posicaoEstacao; i++)
+    {
+        if (e[i]->brindesVendidos == 0)
+        {
+            num++;
+        }
+    }
 
-//     if (posicaoEstacao == 0)
-//     {
+    if (posicaoEstacao == 0)
+    {
 
-//         printf("Ainda não foram adicionadas estações!\n");
-//     }
-//     else if (num == posicaoEstacao)
-//     {
+        printf("Ainda não foram adicionadas estações!\n");
+    }
+    else if (num == posicaoEstacao)
+    {
 
-//         printf("Ainda não foram distribuidos brindes!\n");
-//     }
-//     else
-//     {
+        printf("Ainda não foram distribuidos brindes!\n");
+    }
+    else
+    {
+        typedef struct _localidades
+                {
 
-//         for (int i = 0; i < posicaoEstacao; i++)
-//         {
+                    char *localidade;
+                    int brindesVendidosLocal;
 
-//             for (int j = i + 1; j < posicaoEstacao; j++)
-//             {
-                
-//                 typedef struct _localidades
-//                 {
+                } localidadesinfo, *localidades;
+        localidades l;
 
-//                     char *localidade;
-//                     int brindesVendidosLocal;
+        for (int i = 0; i < posicaoEstacao; i++)
+        {
 
-//                 } localidadesinfo, *localidades;
+            for (int j = i + 1; j < posicaoEstacao; j++)
+            {
 
-//                 estacao est;
-//                 localidades l = (localidades)malloc(sizeof(localidadesinfo));
-//                 l->localidade = malloc(100 * sizeof(char));
-//                 l->localidade = e[i]->localidade;
-//                 l->brindesVendidosLocal = 0;
-//                 localidades localidade[100] = {NULL};
-//                 int posicaoLocalidade = 0;
-//                 localidades loc;
+                typedef struct _localidades
+                {
 
-//                 if (e[i]->brindesVendidos < e[j]->brindesVendidos)
-//                 {
+                    char *localidade;
+                    int brindesVendidosLocal;
 
-//                     est = e[i];
-//                     e[i] = e[j];
-//                     e[j] = est;
-//                 }
+                } localidadesinfo, *localidades;
 
-//                 int exists = 0;
-//                 for (int k = 0; i < 100; i++)
-//                 {
-//                     if (e[i]->localidade == localidade[k])
-//                     {
-//                         exists = 1;
-//                         localidade[k]->brindesVendidosLocal++;
-//                         free(l);
-//                     }
-//                 }
-//                 if (exists == 0)
-//                 {
-//                     localidade[posicaoLocalidade] = l;
-//                     posicaoLocalidade++;
-                    
-//                 }
+                estacao est;
+                l = (localidades)malloc(sizeof(localidadesinfo));
+                l->localidade = malloc(100 * sizeof(char));
+                l->localidade = e[i]->localidade;
+                l->brindesVendidosLocal = 0;
+                localidades localidade[100] = {NULL};
+                int posicaoLocalidade = 0;
+                localidades loc;
 
-//                 if (l[i].brindesVendidosLocal < l[j].brindesVendidosLocal)
-//                 {
+                if (e[i]->brindesVendidos < e[j]->brindesVendidos)
+                {
 
-//                     loc = l[i];
-//                     l[i] = l[j];
-//                     l[j] = loc;
-//                 }
-//             }
-//         }
+                    est = e[i];
+                    e[i] = e[j];
+                    e[j] = est;
+                }
 
-//         printf("\n********************** -> TOP DE BRINDES ESTAÇÕES <- **************************\n");
+                int exists = 0;
+                for (int k = 0; i < 100; i++)
+                {
+                    if (e[i]->localidade == localidade[k])
+                    {
+                        exists = 1;
+                        localidade[k]->brindesVendidosLocal++;
+                        free(l);
+                    }
+                }
+                if (exists == 0)
+                {
+                    localidade[posicaoLocalidade] = l;
+                    posicaoLocalidade++;
 
-//         for (int i = 0; i < posicaoEstacao; i++)
-//         {
+                }
 
-//             printf("%d - %s / %s -> %d\n", i + 1, e[i]->nome, e[i]->localidade, e[i]->brindesVendidos);
-//             printf("\n------------------------------------------------------------------------\n");
-//         }
+                if (l[i].brindesVendidosLocal < l[j].brindesVendidosLocal)
+                {
 
-//         printf("\n********************** -> TOP DE BRINDES LOCALIDADES <- **************************\n");
+                //     loc = l[i];
+                //     l[i] = l[j];
+                //     l[j] = loc;
+                 }
+            }
+        }
 
-//         for (int i = 0; i < posicaoEstacao; i++)
-//         {
+        printf("\n********************** -> TOP DE BRINDES ESTAÇÕES <- **************************\n");
 
-//             printf("%d - %s / %s -> %d\n", i + 1, e[i]->nome, e[i]->localidade, e[i]->brindesVendidos);
-//             printf("\n------------------------------------------------------------------------\n");
-//         }
-//     }
-// }
+        for (int i = 0; i < posicaoEstacao; i++)
+        {
+
+            printf("%d - %s / %s -> %d\n", i + 1, e[i]->nome, e[i]->localidade, e[i]->brindesVendidos);
+            printf("\n------------------------------------------------------------------------\n");
+        }
+
+        printf("\n********************** -> TOP DE BRINDES LOCALIDADES <- **************************\n");
+
+        for (int i = 0; i < posicaoEstacao; i++)
+        {
+
+            printf("%d - %s -> %d\n", i + 1, l[i].localidade, l[i].brindesVendidosLocal);
+            printf("\n------------------------------------------------------------------------\n");
+        }
+    }
+}

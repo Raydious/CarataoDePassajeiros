@@ -10,9 +10,9 @@ estacao criaEstacao(int posicaoEstacao, estacao estacoes[]) {
   e->nome = malloc(100 * sizeof(char));
   e->localidade = malloc(100 * sizeof(char));
   printf("\nNome da estacao: ");
-    scanf(" %s", e->nome);
+    scanf(" %[^\n]", e->nome);
     printf("Localidade da estacao: ");
-    scanf(" %s", e->localidade);
+    scanf(" %[^\n]", e->localidade);
     e->codigo = rand() % 500;
     e->size = 0;
     e->brindes = rand() % 5;

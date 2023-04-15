@@ -61,7 +61,7 @@ int main(void) {
     } else if (strcmp(comando, "CE") == 0 || strcmp(comando, "ce") == 0){
       consultaEstacao(posicaoEstacao,estacoes);
     } else if (strcmp(comando, "TB") == 0 || strcmp(comando, "tb") == 0){
-      //topBrindes(posicaoEstacao, estacoes);
+      topBrindes(posicaoEstacao, estacoes);
     } else {
     printf("Comando invalido!!\n");
     }
