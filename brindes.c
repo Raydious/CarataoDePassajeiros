@@ -191,7 +191,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             }
                             break;
                         }
-                        else if (j == posicaoEstacao - 1 && estacoes[j]->brindes > 0)
+                        else if (j == posicaoEstacao - 1)
                         {
                             for (int k = 0; k < posicaoEstacao; k++)
                             {
@@ -205,7 +205,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
 
                                     total = 500 * quantidade;
                                     printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
-                                    char simnao[1];
+                                    char simnao[50];
                                     scanf(" %s", simnao);
                                     while (simnao != "y" || simnao != "n")
                                     {
@@ -219,7 +219,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                                 estacoes[k]->brindes -= quantidade;
                                                 passageiros[i]->pontos -= total;
                                                 estacoes[k]->brindesVendidos += quantidade;
-                                                printf("Brinde comprado com sucesso, tens agora %d pontos\n", passageiros[i]->pontos);
+                                                printf("O Brinde foi comprado com sucesso e retirado da estação: %s, tens agora %d pontos\n",estacoes[k]->nome, passageiros[i]->pontos);
                                             }
                                             else
                                             {
