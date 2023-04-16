@@ -42,6 +42,7 @@ void incrementaBrindes(int posicaoEstacao, estacao estacoes[])
                     estacoes[i]->brindes += brindes;
                     printf("Brindes adicionados com sucesso!!\n");
                     printf("A estação %s tem agora %d brindes\n", estacoes[i]->nome, estacoes[i]->brindes);
+                    break;
                 }
                 else
                 {
@@ -70,6 +71,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
     else
     {
         char email[50];
+        int vendido = 0;
         int quantidade;
         int total;
         printf("Email do passageiros que vai comprar brindes: ");
@@ -111,10 +113,11 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             e->localidade = "------------------------------------";
                         }
                     }
-
+                    
+                    
                     for (int j = 0; j < posicaoEstacao; j++)
                     {
-                        if (estacoes[j]->codigo == e->codigo && estacoes[j]->brindes > 0)
+                        if (estacoes[j]->codigo == e->codigo && estacoes[j]->brindes > 0 && vendido == 0)
                         {
 
                             total = 300 * quantidade;
@@ -133,6 +136,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                         estacoes[j]->brindes -= quantidade;
                                         passageiros[i]->pontos -= total;
                                         estacoes[j]->brindesVendidos += quantidade;
+                                        vendido = 1;
                                         printf("Brinde comprado com sucesso, tens agora %d pontos\n", passageiros[i]->pontos);
                                     }
                                     else
@@ -152,8 +156,13 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             }
                             break;
                         }
-                        else if (estacoes[j]->codigo != e->codigo && strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0)
+                        
+                        
+                    }
+                    for(int j = 0; j < posicaoEstacao; j++){
+                        if (estacoes[j]->codigo != e->codigo && strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0 && vendido == 0)
                         {
+
                             total = 400 * quantidade;
                             printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
                             char simnao[50];
@@ -170,7 +179,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                         estacoes[j]->brindes -= quantidade;
                                         passageiros[i]->pontos -= total;
                                         estacoes[j]->brindesVendidos += quantidade;
-                                        ;
+                                        vendido = 1;
                                         printf("Brinde comprado com sucesso, tens agora %d pontos\n", passageiros[i]->pontos);
                                     }
                                     else
@@ -190,7 +199,11 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             }
                             break;
                         }
-                        else if (j == posicaoEstacao - 1)
+                        
+                        
+                    }
+                    for(int j = 0; j < posicaoEstacao; j++){
+                        if (j == posicaoEstacao - 1 && vendido == 0)
                         {
                             for (int k = 0; k < posicaoEstacao; k++)
                             {
@@ -218,7 +231,8 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                                 estacoes[k]->brindes -= quantidade;
                                                 passageiros[i]->pontos -= total;
                                                 estacoes[k]->brindesVendidos += quantidade;
-                                                printf("O Brinde foi comprado com sucesso e retirado da estação: %s, tens agora %d pontos\n",estacoes[k]->nome, passageiros[i]->pontos);
+                                                vendido = 1;
+                                                printf("O Brinde foi comprado com sucesso e retirado da estação: %s, tens agora %d pontos\n", estacoes[k]->nome, passageiros[i]->pontos);
                                             }
                                             else
                                             {
@@ -226,7 +240,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                             }
                                             break;
                                         }
-                                        else if (strcmp(simnao, "n") == 0)
+                                        if (strcmp(simnao, "n") == 0)
                                         {
 
                                             printf("Fica para a proxima! :D\n");
@@ -242,6 +256,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                     printf("De momento não há brindes em nenhuma estação!\n");
                                 }
                             }
+                            break;
                         }
                     }
                 }
@@ -311,7 +326,8 @@ void topBrindes(int posicaoEstacao, estacao e[])
         for (int i = 0; i < posicaoLocalidade; i++)
         {
             int j;
-            if (j == posicaoEstacao){
+            if (j == posicaoEstacao)
+            {
                 break;
             }
 
