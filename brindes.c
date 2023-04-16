@@ -154,7 +154,6 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                         }
                         else if (estacoes[j]->codigo != e->codigo && strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0)
                         {
-
                             total = 400 * quantidade;
                             printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
                             char simnao[50];
