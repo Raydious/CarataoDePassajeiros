@@ -119,11 +119,10 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
 
                             total = 300 * quantidade;
                             printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
-                            char simnao[1];
+                            char simnao[50];
                             scanf(" %s", simnao);
                             while (simnao != "y" || simnao != "n")
                             {
-                                
 
                                 if (strcmp(simnao, "y") == 0)
                                 {
@@ -131,7 +130,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                     if (passageiros[i]->pontos >= total)
                                     {
 
-                                        estacoes[j]->brindes -= quantidade; //NAO ESTÁ A ADICIONAR PONTOS A BRINDES INSERIDOS
+                                        estacoes[j]->brindes -= quantidade;
                                         passageiros[i]->pontos -= total;
                                         estacoes[j]->brindesVendidos += quantidade;
                                         printf("Brinde comprado com sucesso, tens agora %d pontos\n", passageiros[i]->pontos);
@@ -153,7 +152,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             }
                             break;
                         }
-                        else if (strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0)
+                        else if (estacoes[j]->codigo == e->codigo && strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0)
                         {
 
                             total = 400 * quantidade;
@@ -258,6 +257,15 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
 
 void topBrindes(int posicaoEstacao, estacao e[])
 {
+    typedef struct _localidades
+    {
+
+        char *localidade;
+        int brindesVendidosLocal;
+
+    } localidadesinfo, *localidades;
+    localidades localidade[100] = {NULL};
+
     int num = 0;
 
     for (int i = 0; i < posicaoEstacao; i++)
@@ -281,13 +289,55 @@ void topBrindes(int posicaoEstacao, estacao e[])
     else
     {
         typedef struct _localidades
+        {
+
+            char *localidade;
+            int brindesVendidosLocal;
+
+        } localidadesinfo, *localidades;
+        int posicaoLocalidade = 0;
+
+        if (posicaoLocalidade == 0)
+        {
+            localidades l;
+            l = (localidades)malloc(sizeof(localidadesinfo));
+            l->localidade = malloc(100 * sizeof(char));
+            l->localidade = e[0]->localidade;
+            l->brindesVendidosLocal = 0;
+
+            localidade[posicaoLocalidade] = l;
+            posicaoLocalidade++;
+        }
+
+        for (int i = 0; i < posicaoLocalidade; i++)
+        {
+
+            for (int j = 0; j < posicaoEstacao; j++)
+            {
+                localidades l;
+                l = (localidades)malloc(sizeof(localidadesinfo));
+                l->localidade = malloc(100 * sizeof(char));
+                l->localidade = e[j]->localidade;
+                l->brindesVendidosLocal = 0;
+
+                if (strcmp(e[j]->localidade, localidade[i]->localidade) != 0)
                 {
+                    localidade[posicaoLocalidade] = l;
+                    posicaoLocalidade++;
+                }
+            }
+        }
 
-                    char *localidade;
-                    int brindesVendidosLocal;
-
-                } localidadesinfo, *localidades;
-        localidades l;
+        for (int i = 0; i < posicaoLocalidade; i++)
+        {
+            for (int j = 0; j < posicaoEstacao; j++)
+            {
+                if (strcmp(localidade[i]->localidade, e[j]->localidade) == 0)
+                {
+                    localidade[i]->brindesVendidosLocal += e[j]->brindesVendidos;
+                }
+            }
+        }
 
         for (int i = 0; i < posicaoEstacao; i++)
         {
@@ -295,22 +345,7 @@ void topBrindes(int posicaoEstacao, estacao e[])
             for (int j = i + 1; j < posicaoEstacao; j++)
             {
 
-                typedef struct _localidades
-                {
-
-                    char *localidade;
-                    int brindesVendidosLocal;
-
-                } localidadesinfo, *localidades;
-
                 estacao est;
-                l = (localidades)malloc(sizeof(localidadesinfo));
-                l->localidade = malloc(100 * sizeof(char));
-                l->localidade = e[i]->localidade;
-                l->brindesVendidosLocal = 0;
-                localidades localidade[100] = {NULL};
-                int posicaoLocalidade = 0;
-                localidades loc;
 
                 if (e[i]->brindesVendidos < e[j]->brindesVendidos)
                 {
@@ -319,31 +354,22 @@ void topBrindes(int posicaoEstacao, estacao e[])
                     e[i] = e[j];
                     e[j] = est;
                 }
+            }
 
-                int exists = 0;
-                for (int k = 0; i < 100; i++)
+            if (posicaoLocalidade > 1)
+            {
+                for (int j = i + 1; j < posicaoLocalidade; j++)
                 {
-                    if (e[i]->localidade == localidade[k])
+
+                    localidades loc;
+
+                    if (localidade[i]->brindesVendidosLocal < localidade[j]->brindesVendidosLocal)
                     {
-                        exists = 1;
-                        localidade[k]->brindesVendidosLocal++;
-                        free(l);
+                        loc = localidade[i];
+                        localidade[i] = localidade[j];
+                        localidade[j] = loc;
                     }
                 }
-                if (exists == 0)
-                {
-                    localidade[posicaoLocalidade] = l;
-                    posicaoLocalidade++;
-
-                }
-
-                if (l[i].brindesVendidosLocal < l[j].brindesVendidosLocal)
-                {
-
-                //     loc = l[i];
-                //     l[i] = l[j];
-                //     l[j] = loc;
-                 }
             }
         }
 
@@ -353,16 +379,23 @@ void topBrindes(int posicaoEstacao, estacao e[])
         {
 
             printf("%d - %s / %s -> %d\n", i + 1, e[i]->nome, e[i]->localidade, e[i]->brindesVendidos);
-            printf("\n------------------------------------------------------------------------\n");
         }
+        printf("\n------------------------------------------------------------------------\n");
 
         printf("\n********************** -> TOP DE BRINDES LOCALIDADES <- **************************\n");
-
-        for (int i = 0; i < posicaoEstacao; i++)
+        if (posicaoLocalidade > 1)
         {
+            for (int i = 0; i < posicaoLocalidade; i++)
+            {
 
-            printf("%d - %s -> %d\n", i + 1, l[i].localidade, l[i].brindesVendidosLocal);
-            printf("\n------------------------------------------------------------------------\n");
+                printf("%d - %s -> %d\n", i + 1, localidade[i]->localidade, localidade[i]->brindesVendidosLocal);
+            }
         }
+        else
+        {
+            printf("Os brindes foram todos na localidade de ");
+        }
+
+        printf("\n------------------------------------------------------------------------\n");
     }
 }
