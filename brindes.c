@@ -311,8 +311,12 @@ void topBrindes(int posicaoEstacao, estacao e[])
 
         for (int i = 0; i < posicaoLocalidade; i++)
         {
+            int j;
+            if (j == posicaoEstacao){
+                break;
+            }
 
-            for (int j = 0; j < posicaoEstacao; j++)
+            for (j = 0; j < posicaoEstacao; j++)
             {
                 localidades l;
                 l = (localidades)malloc(sizeof(localidadesinfo));
