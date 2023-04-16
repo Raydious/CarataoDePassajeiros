@@ -152,12 +152,12 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             }
                             break;
                         }
-                        else if (estacoes[j]->codigo == e->codigo && strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0)
+                        else if (estacoes[j]->codigo != e->codigo && strcmp(estacoes[j]->localidade, e->localidade) == 0 && estacoes[j]->brindes > 0)
                         {
 
                             total = 400 * quantidade;
                             printf("O brinde fica a %d pontos, queres trocar? (Sim: Y / Não: N): ", total);
-                            char simnao[1];
+                            char simnao[50];
                             scanf(" %s", simnao);
                             while (simnao != "y" || simnao != "n")
                             {
@@ -191,7 +191,7 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                             }
                             break;
                         }
-                        else if (j == posicaoEstacao - 1)
+                        else if (j == posicaoEstacao - 1 && estacoes[j]->brindes > 0)
                         {
                             for (int k = 0; k < posicaoEstacao; k++)
                             {
@@ -216,9 +216,9 @@ void escolheBrindes(int posicaoEstacao, int posicaoPassageiro, estacao estacoes[
                                             if (passageiros[i]->pontos >= total)
                                             {
 
-                                                estacoes[j]->brindes -= quantidade;
+                                                estacoes[k]->brindes -= quantidade;
                                                 passageiros[i]->pontos -= total;
-                                                estacoes[j]->brindesVendidos += quantidade;
+                                                estacoes[k]->brindesVendidos += quantidade;
                                                 printf("Brinde comprado com sucesso, tens agora %d pontos\n", passageiros[i]->pontos);
                                             }
                                             else
